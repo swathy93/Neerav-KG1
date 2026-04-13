@@ -1,0 +1,266 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+.ws{font-family:'Nunito',sans-serif;padding:1.25rem 1rem;max-width:780px;margin:0 auto}
+.hdr{text-align:center;padding:1rem 1.25rem;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
+.hdr h1{font-family:'Fredoka One',cursive;font-size:24px;font-weight:400;color:#3C3489}
+.hdr p{font-size:13px;color:var(--color-text-secondary);margin-top:3px}
+.sec-title{font-family:'Fredoka One',cursive;font-size:19px;font-weight:400;margin-bottom:.5rem;display:flex;align-items:center;gap:8px}
+.sec-desc{font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem}
+.sec-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1.5rem}
+.reset-row{display:flex;justify-content:flex-end;margin-bottom:.75rem}
+.reset-btn{padding:5px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:var(--color-text-primary)}
+.reset-btn:hover{background:var(--color-background-secondary)}
+
+/* SECTION 1 - Sight Word Cards */
+.sw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.sw-card{border-radius:var(--border-radius-lg);padding:1rem;border:0.5px solid var(--color-border-tertiary);text-align:center}
+.sw-card.purple{background:#EEEDFE;border-color:#AFA9EC}
+.sw-card.teal{background:#E1F5EE;border-color:#5DCAA5}
+.sw-card.coral{background:#FAECE7;border-color:#F0997B}
+.sw-card.amber{background:#FAEEDA;border-color:#EF9F27}
+.sw-big{font-family:'Fredoka One',cursive;font-size:52px;font-weight:400;line-height:1;margin-bottom:6px}
+.sw-card.purple .sw-big{color:#3C3489}
+.sw-card.teal .sw-big{color:#085041}
+.sw-card.coral .sw-big{color:#712B13}
+.sw-card.amber .sw-big{color:#633806}
+.sw-letters{display:flex;justify-content:center;gap:6px;margin:8px 0}
+.lbox{width:40px;height:40px;border-radius:8px;border:2px dashed;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:22px;font-weight:400;cursor:pointer;transition:all .2s;user-select:none;color:transparent}
+.sw-card.purple .lbox{border-color:#7F77DD}
+.sw-card.teal .lbox{border-color:#1D9E75}
+.sw-card.coral .lbox{border-color:#D85A30}
+.sw-card.amber .lbox{border-color:#BA7517}
+.lbox.shown.purple{color:#3C3489;background:#CECBF6}
+.lbox.shown.teal{color:#085041;background:#9FE1CB}
+.lbox.shown.coral{color:#712B13;background:#F5C4B3}
+.lbox.shown.amber{color:#633806;background:#FAC775}
+.sw-eg{font-size:13px;color:var(--color-text-secondary);font-style:italic;margin-top:6px}
+.sw-hint{font-size:11px;color:var(--color-text-tertiary);margin:4px 0 2px}
+
+/* SECTION 2 - Fill in the blank */
+.q-block{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.q-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.q-num{font-size:12px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.sentence-display{font-family:'Fredoka One',cursive;font-size:24px;font-weight:400;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px;min-height:36px}
+.blank{display:inline-block;min-width:70px;border-bottom:3px solid #7F77DD;text-align:center;margin:0 4px;color:#3C3489;vertical-align:bottom}
+.choices{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.choice-btn{padding:10px 22px;border-radius:40px;border:2px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-family:'Fredoka One',cursive;font-size:20px;font-weight:400;cursor:pointer;color:var(--color-text-primary);transition:all .15s;user-select:none}
+.choice-btn:hover{border-color:#7F77DD;background:#EEEDFE;color:#3C3489}
+.choice-btn.correct{background:#E1F5EE;border-color:#1D9E75;color:#085041;pointer-events:none}
+.choice-btn.wrong{background:#FAECE7;border-color:#D85A30;color:#712B13}
+.choice-btn.locked{pointer-events:none;opacity:.45}
+.q-feedback{font-size:14px;font-weight:700;min-height:20px}
+.q-feedback.ok{color:#0F6E56}
+.q-feedback.no{color:#993C1D}
+
+/* SECTION 3 - Odd one out (unchanged) */
+.ooo-row{margin-bottom:1rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.ooo-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.ooo-label{font-size:14px;font-weight:700;color:var(--color-text-secondary);margin-bottom:8px}
+.ooo-opts{display:flex;flex-wrap:wrap;gap:8px}
+.ooo-chip{padding:9px 18px;border-radius:var(--border-radius-md);border:1.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-family:'Fredoka One',cursive;font-size:18px;font-weight:400;cursor:pointer;transition:all .15s;color:var(--color-text-primary)}
+.ooo-chip:hover{background:#EEEDFE;border-color:#AFA9EC;color:#3C3489}
+.ooo-chip.cp{background:#E1F5EE;border-color:#1D9E75;color:#085041;pointer-events:none}
+.ooo-chip.wp{background:#FAECE7;border-color:#D85A30;color:#712B13;pointer-events:none}
+.ooo-chip.ans{background:#E1F5EE;border-color:#1D9E75;color:#085041;pointer-events:none}
+.ooo-chip.locked{pointer-events:none;opacity:.5}
+.ooo-fb{font-size:13px;font-weight:700;margin-top:7px;min-height:18px}
+.ooo-fb.ok{color:#0F6E56}
+.ooo-fb.no{color:#993C1D}
+
+/* Score */
+.score-strip{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
+.score-lbl{font-size:13px;color:var(--color-text-secondary)}
+.score-val{font-family:'Fredoka One',cursive;font-size:22px;color:#3C3489}
+.stars{display:flex;gap:4px}
+.star-dot{width:12px;height:12px;border-radius:50%;background:var(--color-border-secondary);transition:background .3s}
+.star-dot.lit{background:#EF9F27}
+@media(max-width:480px){.sw-grid{grid-template-columns:1fr}.sw-big{font-size:42px}.sentence-display{font-size:20px}.choice-btn{font-size:18px;padding:9px 18px}}
+</style>
+
+<div class="ws">
+<div class="hdr">
+  <h1>Neerav's practice sheet</h1>
+  <p>Tap to learn sight words, pick the right word, find the odd sound!</p>
+</div>
+
+<div class="score-strip">
+  <div><div class="score-lbl">My score</div><div class="score-val" id="sc">0 / 0</div></div>
+  <div class="stars" id="stars"></div>
+</div>
+
+<!-- SECTION 1 -->
+<div class="sec-title" style="color:#3C3489">Sight words</div>
+<p class="sec-desc">Tap each dotted box to see the letter. Say the word out loud!</p>
+<div class="sec-box">
+  <div class="reset-row"><button class="reset-btn" onclick="resetSW()">Reset letters</button></div>
+  <div class="sw-grid" id="sw-grid"></div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="sec-title" style="color:#085041">Fill in the blank</div>
+<p class="sec-desc">Read the sentence. Tap the correct word to fill the blank!</p>
+<div class="sec-box">
+  <div class="reset-row"><button class="reset-btn" onclick="resetFIB()">Try again</button></div>
+  <div id="fib-section"></div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="sec-title" style="color:#712B13">Odd one out — sounds</div>
+<p class="sec-desc">Three words share the same starting sound. Tap the one that does NOT belong!</p>
+<div class="sec-box">
+  <div id="ooo-section"></div>
+</div>
+</div>
+
+<script>
+const SW=[
+  {word:'me',color:'purple',eg:'"This is me."'},
+  {word:'I',color:'teal',eg:'"I am happy."'},
+  {word:'he',color:'coral',eg:'"He can run."'},
+  {word:'we',color:'amber',eg:'"We are friends."'},
+];
+
+const FIB=[
+  {before:'',after:'can do it!',answer:'I',choices:['I','he','we'],hint:'Who is doing it? (you!)'},
+  {before:'',after:'is my friend.',answer:'He',choices:['Me','He','I'],hint:'A boy — use...'},
+  {before:'',after:'love to read.',answer:'We',choices:['He','We','me'],hint:'Two or more people — use...'},
+  {before:'Come with',after:'!',answer:'me',choices:['me','I','we'],hint:'Talking about yourself — use...'},
+  {before:'',after:'like bananas.',answer:'I',choices:['I','He','We'],hint:'Just you — use...'},
+  {before:'',after:'has a blue bag.',answer:'He',choices:['We','I','He'],hint:'A boy — use...'},
+];
+
+const OOO=[
+  {label:'Which does NOT start with the "s" sound?',opts:['sun','sit','ant','sad'],ans:'ant',why:'"ant" starts with "a", not "s"'},
+  {label:'Which does NOT start with the "a" sound?',opts:['apple','pin','ant','arm'],ans:'pin',why:'"pin" starts with "p", not "a"'},
+  {label:'Which does NOT start with the "p" sound?',opts:['pot','pan','ink','pig'],ans:'ink',why:'"ink" starts with "i", not "p"'},
+  {label:'Which does NOT start with the "t" sound?',opts:['sit','tap','top','tin'],ans:'sit',why:'"sit" starts with "s", not "t"'},
+  {label:'Which does NOT start with the "i" sound?',opts:['inn','ill','sat','itch'],ans:'sat',why:'"sat" starts with "s", not "i"'},
+];
+
+let score=0,total=0,answered=[];
+
+function upScore(){
+  document.getElementById('sc').textContent=score+' / '+total;
+  const s=document.getElementById('stars');
+  s.innerHTML='';
+  const n=Math.min(answered.length,10);
+  for(let i=0;i<n;i++){const d=document.createElement('div');d.className='star-dot'+(answered[i]?' lit':'');s.appendChild(d);}
+}
+
+function buildSW(){
+  const g=document.getElementById('sw-grid');g.innerHTML='';
+  SW.forEach(sw=>{
+    const card=document.createElement('div');card.className='sw-card '+sw.color;
+    const big=document.createElement('div');big.className='sw-big';big.textContent=sw.word;
+    const hint=document.createElement('div');hint.className='sw-hint';hint.textContent='Tap each box to spell it out';
+    const letters=document.createElement('div');letters.className='sw-letters';
+    sw.word.split('').forEach(ch=>{
+      const b=document.createElement('div');b.className='lbox';b.textContent=ch;b.dataset.c=sw.color;
+      b.onclick=function(){this.classList.toggle('shown');this.classList.toggle(sw.color);};
+      letters.appendChild(b);
+    });
+    const eg=document.createElement('div');eg.className='sw-eg';eg.textContent=sw.eg;
+    card.append(big,hint,letters,eg);g.appendChild(card);
+  });
+}
+
+function resetSW(){buildSW();}
+
+function buildFIB(){
+  const sec=document.getElementById('fib-section');sec.innerHTML='';
+  FIB.forEach((q,i)=>{
+    const blk=document.createElement('div');blk.className='q-block';blk.id='fib-'+i;
+    const num=document.createElement('div');num.className='q-num';num.textContent='Question '+(i+1);
+    const sent=document.createElement('div');sent.className='sentence-display';
+    sent.innerHTML=(q.before?q.before+' ':'')+'<span class="blank" id="blank-'+i+'">___</span> '+(q.after||'');
+    const ch=document.createElement('div');ch.className='choices';
+    q.choices.forEach(opt=>{
+      const btn=document.createElement('button');btn.className='choice-btn';btn.textContent=opt;
+      btn.onclick=()=>checkFIB(i,opt,q,btn);
+      ch.appendChild(btn);
+    });
+    const fb=document.createElement('div');fb.className='q-feedback';fb.id='fb-'+i;
+    blk.append(num,sent,ch,fb);sec.appendChild(blk);
+  });
+}
+
+function checkFIB(i,opt,q,btn){
+  const blk=document.getElementById('fib-'+i);
+  if(blk.dataset.done)return;
+  blk.dataset.done='1';
+  const correct=opt.toLowerCase()===q.answer.toLowerCase();
+  total++;
+  if(correct){
+    score++;
+    btn.classList.add('correct');
+    document.getElementById('blank-'+i).textContent=opt;
+    document.getElementById('fb-'+i).className='q-feedback ok';
+    document.getElementById('fb-'+i).textContent='Great job!';
+    answered.push(true);
+  }else{
+    btn.classList.add('wrong');
+    document.getElementById('fb-'+i).className='q-feedback no';
+    document.getElementById('fb-'+i).textContent='Try again! The answer is "'+q.answer+'"';
+    setTimeout(()=>{
+      blk.querySelectorAll('.choice-btn').forEach(b=>{
+        if(b.textContent.toLowerCase()===q.answer.toLowerCase()){b.classList.add('correct');}
+        else{b.classList.add('locked');}
+      });
+      document.getElementById('blank-'+i).textContent=q.answer;
+    },800);
+    answered.push(false);
+  }
+  upScore();
+}
+
+function resetFIB(){
+  answered=answered.filter((_,i)=>i<0);
+  score=Math.max(0,score-FIB.length);
+  total=Math.max(0,total-FIB.length);
+  answered=[];score=0;total=0;
+  buildFIB();buildOOO();upScore();
+}
+
+function buildOOO(){
+  const sec=document.getElementById('ooo-section');sec.innerHTML='';
+  OOO.forEach((q,i)=>{
+    const row=document.createElement('div');row.className='ooo-row';row.id='ooo-'+i;
+    const lbl=document.createElement('div');lbl.className='ooo-label';lbl.textContent='Q'+(i+1)+': '+q.label;
+    const opts=document.createElement('div');opts.className='ooo-opts';
+    q.opts.forEach(opt=>{
+      const chip=document.createElement('div');chip.className='ooo-chip';chip.textContent=opt;
+      chip.onclick=()=>checkOOO(i,opt,q,chip,opts);
+      opts.appendChild(chip);
+    });
+    const fb=document.createElement('div');fb.className='ooo-fb';fb.id='ooo-fb-'+i;
+    row.append(lbl,opts,fb);sec.appendChild(row);
+  });
+}
+
+function checkOOO(i,opt,q,chip,opts){
+  const row=document.getElementById('ooo-'+i);
+  if(row.dataset.done)return;
+  row.dataset.done='1';
+  total++;
+  if(opt===q.ans){
+    chip.classList.add('cp');
+    document.getElementById('ooo-fb-'+i).className='ooo-fb ok';
+    document.getElementById('ooo-fb-'+i).textContent='Yes! '+q.why+'.';
+    answered.push(true);score++;
+  }else{
+    chip.classList.add('wp');
+    opts.querySelectorAll('.ooo-chip').forEach(c=>{
+      if(c.textContent===q.ans)c.classList.add('ans');
+      else if(c!==chip)c.classList.add('locked');
+    });
+    document.getElementById('ooo-fb-'+i).className='ooo-fb no';
+    document.getElementById('ooo-fb-'+i).textContent='Not quite! "'+q.ans+'" is the odd one. '+q.why+'.';
+    answered.push(false);
+  }
+  upScore();
+}
+
+buildSW();buildFIB();buildOOO();upScore();
+</script>
