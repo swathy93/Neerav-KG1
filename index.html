@@ -124,11 +124,11 @@ const SW=[
 
 const FIB=[
   {context:'Who is doing it? (you!)',before:'',after:'can do it!',answer:'I',choices:['I','he','we'],},
-  {hint:'A boy — use...',before:'',after:'is my friend.',answer:'He',choices:['Me','He','I'],},
-  {hint:'Two or more people — use...',before:'',after:'love to read.',answer:'We',choices:['He','We','me'],},
-  {hint:'Talking about yourself — use...',before:'Come with',after:'!',answer:'me',choices:['me','I','we'],},
-  {hint:'Just you — use...',before:'',after:'like bananas.',answer:'I',choices:['I','He','We'],},
-  {hint:'A boy — use...',before:'',after:'has a blue bag.',answer:'He',choices:['We','I','He'],},
+  {context:'A boy — use...',before:'',after:'is my friend.',answer:'He',choices:['Me','He','I'],},
+  {context:'Two or more people — use...',before:'',after:'love to read.',answer:'We',choices:['He','We','me'],},
+  {context:'Talking about yourself — use...',before:'Come with',after:'!',answer:'me',choices:['me','I','we'],},
+  {context:'Just you — use...',before:'',after:'like bananas.',answer:'I',choices:['I','He','We'],},
+  {context:'A boy — use...',before:'',after:'has a blue bag.',answer:'He',choices:['We','I','He'],},
 ];
 
 const OOO=[
@@ -173,6 +173,7 @@ function buildFIB(){
   FIB.forEach((q,i)=>{
     const blk=document.createElement('div');blk.className='q-block';blk.id='fib-'+i;
     const num=document.createElement('div');num.className='q-num';num.textContent='Question '+(i+1);
+     const ctx=document.createElement('div');ctx.className='q-context';ctx.textContent=q.context;
     const sent=document.createElement('div');sent.className='sentence-display';
     sent.innerHTML=(q.before?q.before+' ':'')+'<span class="blank" id="blank-'+i+'">___</span> '+(q.after||'');
     const ch=document.createElement('div');ch.className='choices';
@@ -182,7 +183,7 @@ function buildFIB(){
       ch.appendChild(btn);
     });
     const fb=document.createElement('div');fb.className='q-feedback';fb.id='fb-'+i;
-    blk.append(num,sent,ch,fb);sec.appendChild(blk);
+    blk.append(num,ctx,sent,ch,fb);sec.appendChild(blk);
   });
 }
 
