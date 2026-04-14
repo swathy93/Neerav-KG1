@@ -1,4 +1,3 @@
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -12,8 +11,6 @@
 .reset-row{display:flex;justify-content:flex-end;margin-bottom:.75rem}
 .reset-btn{padding:5px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:var(--color-text-primary)}
 .reset-btn:hover{background:var(--color-background-secondary)}
-
-/* SECTION 1 - Sight Word Cards */
 .sw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .sw-card{border-radius:var(--border-radius-lg);padding:1rem;border:0.5px solid var(--color-border-tertiary);text-align:center}
 .sw-card.purple{background:#EEEDFE;border-color:#AFA9EC}
@@ -37,12 +34,10 @@
 .lbox.shown.amber{color:#633806;background:#FAC775}
 .sw-eg{font-size:13px;color:var(--color-text-secondary);font-style:italic;margin-top:6px}
 .sw-hint{font-size:11px;color:var(--color-text-tertiary);margin:4px 0 2px}
-
-/* SECTION 2 - Fill in the blank */
 .q-block{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)}
 .q-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.q-num{font-size:12px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 .q-context{font-size:13px;color:var(--color-text-secondary);margin-bottom:6px;font-style:italic}
-.q-num{font-size:12px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .sentence-display{font-family:'Fredoka One',cursive;font-size:24px;font-weight:400;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px;min-height:36px}
 .blank{display:inline-block;min-width:70px;border-bottom:3px solid #7F77DD;text-align:center;margin:0 4px;color:#3C3489;vertical-align:bottom}
 .choices{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
@@ -54,8 +49,6 @@
 .q-feedback{font-size:14px;font-weight:700;min-height:20px}
 .q-feedback.ok{color:#0F6E56}
 .q-feedback.no{color:#993C1D}
-
-/* SECTION 3 - Odd one out (unchanged) */
 .ooo-row{margin-bottom:1rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
 .ooo-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .ooo-label{font-size:14px;font-weight:700;color:var(--color-text-secondary);margin-bottom:8px}
@@ -69,8 +62,6 @@
 .ooo-fb{font-size:13px;font-weight:700;margin-top:7px;min-height:18px}
 .ooo-fb.ok{color:#0F6E56}
 .ooo-fb.no{color:#993C1D}
-
-/* Score */
 .score-strip{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
 .score-lbl{font-size:13px;color:var(--color-text-secondary)}
 .score-val{font-family:'Fredoka One',cursive;font-size:22px;color:#3C3489}
@@ -91,7 +82,6 @@
   <div class="stars" id="stars"></div>
 </div>
 
-<!-- SECTION 1 -->
 <div class="sec-title" style="color:#3C3489">Sight words</div>
 <p class="sec-desc">Tap each dotted box to see the letter. Say the word out loud!</p>
 <div class="sec-box">
@@ -99,15 +89,13 @@
   <div class="sw-grid" id="sw-grid"></div>
 </div>
 
-<!-- SECTION 2 -->
 <div class="sec-title" style="color:#085041">Fill in the blank</div>
 <p class="sec-desc">Read the sentence. Tap the correct word to fill the blank!</p>
 <div class="sec-box">
-  <div class="reset-row"><button class="reset-btn" onclick="resetFIB()">Try again</button></div>
+  <div class="reset-row"><button class="reset-btn" onclick="resetAll()">Try again</button></div>
   <div id="fib-section"></div>
 </div>
 
-<!-- SECTION 3 -->
 <div class="sec-title" style="color:#712B13">Odd one out — sounds</div>
 <p class="sec-desc">Three words share the same starting sound. Tap the one that does NOT belong!</p>
 <div class="sec-box">
@@ -159,7 +147,7 @@ const FIB=[
     before:'',after:'has a red bag.',
     answer:'He',choices:['We','I','He'],
     note:'"He" is used for one boy you are talking about.'
-  }
+  },
 ];
 
 const OOO=[
@@ -174,10 +162,8 @@ let score=0,total=0,answered=[];
 
 function upScore(){
   document.getElementById('sc').textContent=score+' / '+total;
-  const s=document.getElementById('stars');
-  s.innerHTML='';
-  const n=Math.min(answered.length,10);
-  for(let i=0;i<n;i++){const d=document.createElement('div');d.className='star-dot'+(answered[i]?' lit':'');s.appendChild(d);}
+  const s=document.getElementById('stars');s.innerHTML='';
+  answered.slice(-10).forEach(v=>{const d=document.createElement('div');d.className='star-dot'+(v?' lit':'');s.appendChild(d);});
 }
 
 function buildSW(){
@@ -188,7 +174,7 @@ function buildSW(){
     const hint=document.createElement('div');hint.className='sw-hint';hint.textContent='Tap each box to spell it out';
     const letters=document.createElement('div');letters.className='sw-letters';
     sw.word.split('').forEach(ch=>{
-      const b=document.createElement('div');b.className='lbox';b.textContent=ch;b.dataset.c=sw.color;
+      const b=document.createElement('div');b.className='lbox';b.textContent=ch;
       b.onclick=function(){this.classList.toggle('shown');this.classList.toggle(sw.color);};
       letters.appendChild(b);
     });
@@ -204,13 +190,13 @@ function buildFIB(){
   FIB.forEach((q,i)=>{
     const blk=document.createElement('div');blk.className='q-block';blk.id='fib-'+i;
     const num=document.createElement('div');num.className='q-num';num.textContent='Question '+(i+1);
-     const ctx=document.createElement('div');ctx.className='q-context';ctx.textContent=q.context;
+    const ctx=document.createElement('div');ctx.className='q-context';ctx.textContent=q.context;
     const sent=document.createElement('div');sent.className='sentence-display';
-    sent.innerHTML=(q.before?q.before+' ':'')+'<span class="blank" id="blank-'+i+'">___</span> '+(q.after||'');
+    sent.innerHTML=(q.before?q.before+' ':'')+'<span class="blank" id="blank-'+i+'">___</span>'+(q.after?' '+q.after:'');
     const ch=document.createElement('div');ch.className='choices';
     q.choices.forEach(opt=>{
       const btn=document.createElement('button');btn.className='choice-btn';btn.textContent=opt;
-      btn.onclick=()=>checkFIB(i,opt,q,btn);
+      btn.onclick=()=>checkFIB(i,opt,q,btn,ch);
       ch.appendChild(btn);
     });
     const fb=document.createElement('div');fb.className='q-feedback';fb.id='fb-'+i;
@@ -218,41 +204,31 @@ function buildFIB(){
   });
 }
 
-function checkFIB(i,opt,q,btn){
+function checkFIB(i,opt,q,btn,ch){
   const blk=document.getElementById('fib-'+i);
   if(blk.dataset.done)return;
   blk.dataset.done='1';
   const correct=opt.toLowerCase()===q.answer.toLowerCase();
   total++;
   if(correct){
-    score++;
+    score++;answered.push(true);
     btn.classList.add('correct');
     document.getElementById('blank-'+i).textContent=opt;
-    document.getElementById('fb-'+i).className='q-feedback ok';
-    document.getElementById('fb-'+i).textContent='Great job!';
-    answered.push(true);
+    const fb=document.getElementById('fb-'+i);fb.className='q-feedback ok';fb.textContent='Well done!';
   }else{
+    answered.push(false);
     btn.classList.add('wrong');
-    document.getElementById('fb-'+i).className='q-feedback no';
-    document.getElementById('fb-'+i).textContent='Try again! The answer is "'+q.answer+'"';
     setTimeout(()=>{
-      blk.querySelectorAll('.choice-btn').forEach(b=>{
-        if(b.textContent.toLowerCase()===q.answer.toLowerCase()){b.classList.add('correct');}
-        else{b.classList.add('locked');}
+      ch.querySelectorAll('.choice-btn').forEach(b=>{
+        if(b.textContent.toLowerCase()===q.answer.toLowerCase())b.classList.add('correct');
+        else b.classList.add('locked');
       });
       document.getElementById('blank-'+i).textContent=q.answer;
-    },800);
-    answered.push(false);
+      const fb=document.getElementById('fb-'+i);fb.className='q-feedback no';
+      fb.textContent='The answer is "'+q.answer+'". '+q.note;
+    },700);
   }
   upScore();
-}
-
-function resetFIB(){
-  answered=answered.filter((_,i)=>i<0);
-  score=Math.max(0,score-FIB.length);
-  total=Math.max(0,total-FIB.length);
-  answered=[];score=0;total=0;
-  buildFIB();buildOOO();upScore();
 }
 
 function buildOOO(){
@@ -274,25 +250,25 @@ function buildOOO(){
 function checkOOO(i,opt,q,chip,opts){
   const row=document.getElementById('ooo-'+i);
   if(row.dataset.done)return;
-  row.dataset.done='1';
-  total++;
+  row.dataset.done='1';total++;
   if(opt===q.ans){
+    score++;answered.push(true);
     chip.classList.add('cp');
-    document.getElementById('ooo-fb-'+i).className='ooo-fb ok';
-    document.getElementById('ooo-fb-'+i).textContent='Yes! '+q.why+'.';
-    answered.push(true);score++;
+    const fb=document.getElementById('ooo-fb-'+i);fb.className='ooo-fb ok';fb.textContent='Yes! '+q.why+'.';
   }else{
+    answered.push(false);
     chip.classList.add('wp');
     opts.querySelectorAll('.ooo-chip').forEach(c=>{
       if(c.textContent===q.ans)c.classList.add('ans');
       else if(c!==chip)c.classList.add('locked');
     });
-    document.getElementById('ooo-fb-'+i).className='ooo-fb no';
-    document.getElementById('ooo-fb-'+i).textContent='Not quite! "'+q.ans+'" is the odd one. '+q.why+'.';
-    answered.push(false);
+    const fb=document.getElementById('ooo-fb-'+i);fb.className='ooo-fb no';
+    fb.textContent='Not quite! "'+q.ans+'" is the odd one. '+q.why+'.';
   }
   upScore();
 }
+
+function resetAll(){score=0;total=0;answered=[];buildFIB();buildOOO();upScore();}
 
 buildSW();buildFIB();buildOOO();upScore();
 </script>
