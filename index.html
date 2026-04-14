@@ -124,12 +124,42 @@ const SW=[
 ];
 
 const FIB=[
-  {context:'Who is doing it? (you!)',before:'',after:'can do it!',answer:'I',choices:['I','he','we'],},
-  {context:'A boy — use...',before:'',after:'is my friend.',answer:'He',choices:['Me','He','I'],},
-  {context:'Two or more people — use...',before:'',after:'love to read.',answer:'We',choices:['He','We','me'],},
-  {context:'Talking about yourself — use...',before:'Come with',after:'!',answer:'me',choices:['me','I','we'],},
-  {context:'Just you — use...',before:'',after:'like bananas.',answer:'I',choices:['I','He','We'],},
-  {context:'A boy — use...',before:'',after:'has a blue bag.',answer:'He',choices:['We','I','He'],},
+  {
+    context:'Neerav is talking about himself.',
+    before:'',after:'am Neerav.',
+    answer:'I',choices:['I','he','we'],
+    note:'Only "I" works here — "he am" and "we am" are wrong!'
+  },
+  {
+    context:'Neerav\'s friend is a boy named Arjun.',
+    before:'',after:'is my friend.',
+    answer:'He',choices:['Me','He','We'],
+    note:'"He" is used for one boy.'
+  },
+  {
+    context:'Neerav and his sister are going out together.',
+    before:'',after:'are going to the park.',
+    answer:'We',choices:['He','We','I'],
+    note:'"We" means more than one person together.'
+  },
+  {
+    context:'Neerav\'s mum is calling him.',
+    before:'Come with',after:'please!',
+    answer:'me',choices:['me','I','he'],
+    note:'"Come with me" — you say "me" after "with".'
+  },
+  {
+    context:'Neerav is telling what he likes.',
+    before:'',after:'like mangoes.',
+    answer:'I',choices:['I','He','We'],
+    note:'"I like" — talking about yourself alone.'
+  },
+  {
+    context:'Neerav sees a boy carrying a bag.',
+    before:'',after:'has a red bag.',
+    answer:'He',choices:['We','I','He'],
+    note:'"He" is used for one boy you are talking about.'
+  }
 ];
 
 const OOO=[
