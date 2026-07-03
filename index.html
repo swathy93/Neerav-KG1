@@ -1,274 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KG1 C — Revision Storybook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@500;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-.ws{font-family:'Nunito',sans-serif;padding:1.25rem 1rem;max-width:780px;margin:0 auto}
-.hdr{text-align:center;padding:1rem 1.25rem;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
-.hdr h1{font-family:'Fredoka One',cursive;font-size:24px;font-weight:400;color:#3C3489}
-.hdr p{font-size:13px;color:var(--color-text-secondary);margin-top:3px}
-.sec-title{font-family:'Fredoka One',cursive;font-size:19px;font-weight:400;margin-bottom:.5rem;display:flex;align-items:center;gap:8px}
-.sec-desc{font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem}
-.sec-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1.5rem}
-.reset-row{display:flex;justify-content:flex-end;margin-bottom:.75rem}
-.reset-btn{padding:5px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:var(--color-text-primary)}
-.reset-btn:hover{background:var(--color-background-secondary)}
-.sw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.sw-card{border-radius:var(--border-radius-lg);padding:1rem;border:0.5px solid var(--color-border-tertiary);text-align:center}
-.sw-card.purple{background:#EEEDFE;border-color:#AFA9EC}
-.sw-card.teal{background:#E1F5EE;border-color:#5DCAA5}
-.sw-card.coral{background:#FAECE7;border-color:#F0997B}
-.sw-card.amber{background:#FAEEDA;border-color:#EF9F27}
-.sw-big{font-family:'Fredoka One',cursive;font-size:52px;font-weight:400;line-height:1;margin-bottom:6px}
-.sw-card.purple .sw-big{color:#3C3489}
-.sw-card.teal .sw-big{color:#085041}
-.sw-card.coral .sw-big{color:#712B13}
-.sw-card.amber .sw-big{color:#633806}
-.sw-letters{display:flex;justify-content:center;gap:6px;margin:8px 0}
-.lbox{width:40px;height:40px;border-radius:8px;border:2px dashed;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:22px;font-weight:400;cursor:pointer;transition:all .2s;user-select:none;color:transparent}
-.sw-card.purple .lbox{border-color:#7F77DD}
-.sw-card.teal .lbox{border-color:#1D9E75}
-.sw-card.coral .lbox{border-color:#D85A30}
-.sw-card.amber .lbox{border-color:#BA7517}
-.lbox.shown.purple{color:#3C3489;background:#CECBF6}
-.lbox.shown.teal{color:#085041;background:#9FE1CB}
-.lbox.shown.coral{color:#712B13;background:#F5C4B3}
-.lbox.shown.amber{color:#633806;background:#FAC775}
-.sw-eg{font-size:13px;color:var(--color-text-secondary);font-style:italic;margin-top:6px}
-.sw-hint{font-size:11px;color:var(--color-text-tertiary);margin:4px 0 2px}
-.q-block{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)}
-.q-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.q-num{font-size:12px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.q-context{font-size:13px;color:var(--color-text-secondary);margin-bottom:6px;font-style:italic}
-.sentence-display{font-family:'Fredoka One',cursive;font-size:24px;font-weight:400;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px;min-height:36px}
-.blank{display:inline-block;min-width:70px;border-bottom:3px solid #7F77DD;text-align:center;margin:0 4px;color:#3C3489;vertical-align:bottom}
-.choices{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
-.choice-btn{padding:10px 22px;border-radius:40px;border:2px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-family:'Fredoka One',cursive;font-size:20px;font-weight:400;cursor:pointer;color:var(--color-text-primary);transition:all .15s;user-select:none}
-.choice-btn:hover{border-color:#7F77DD;background:#EEEDFE;color:#3C3489}
-.choice-btn.correct{background:#E1F5EE;border-color:#1D9E75;color:#085041;pointer-events:none}
-.choice-btn.wrong{background:#FAECE7;border-color:#D85A30;color:#712B13}
-.choice-btn.locked{pointer-events:none;opacity:.45}
-.q-feedback{font-size:14px;font-weight:700;min-height:20px}
-.q-feedback.ok{color:#0F6E56}
-.q-feedback.no{color:#993C1D}
-.ooo-row{margin-bottom:1rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
-.ooo-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.ooo-label{font-size:14px;font-weight:700;color:var(--color-text-secondary);margin-bottom:8px}
-.ooo-opts{display:flex;flex-wrap:wrap;gap:8px}
-.ooo-chip{padding:9px 18px;border-radius:var(--border-radius-md);border:1.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-family:'Fredoka One',cursive;font-size:18px;font-weight:400;cursor:pointer;transition:all .15s;color:var(--color-text-primary)}
-.ooo-chip:hover{background:#EEEDFE;border-color:#AFA9EC;color:#3C3489}
-.ooo-chip.cp{background:#E1F5EE;border-color:#1D9E75;color:#085041;pointer-events:none}
-.ooo-chip.wp{background:#FAECE7;border-color:#D85A30;color:#712B13;pointer-events:none}
-.ooo-chip.ans{background:#E1F5EE;border-color:#1D9E75;color:#085041;pointer-events:none}
-.ooo-chip.locked{pointer-events:none;opacity:.5}
-.ooo-fb{font-size:13px;font-weight:700;margin-top:7px;min-height:18px}
-.ooo-fb.ok{color:#0F6E56}
-.ooo-fb.no{color:#993C1D}
-.score-strip{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
-.score-lbl{font-size:13px;color:var(--color-text-secondary)}
-.score-val{font-family:'Fredoka One',cursive;font-size:22px;color:#3C3489}
-.stars{display:flex;gap:4px}
-.star-dot{width:12px;height:12px;border-radius:50%;background:var(--color-border-secondary);transition:background .3s}
-.star-dot.lit{background:#EF9F27}
-@media(max-width:480px){.sw-grid{grid-template-columns:1fr}.sw-big{font-size:42px}.sentence-display{font-size:20px}.choice-btn{font-size:18px;padding:9px 18px}}
+  :root{
+    --paper:#FFF8EC;
+    --paper-dark:#F3E9D2;
+    --ink:#3A2E22;
+    --ink-soft:#6B5B47;
+    --gold:#D4A94A;
+    --shadow: 0 10px 30px rgba(58,46,34,0.18);
+
+    --evs-a:#3E8E5C; --evs-b:#E7F4EA;
+    --arabic-a:#7B4B94; --arabic-b:#F1E9F6;
+    --phonics-a:#2E77B0; --phonics-b:#E7F1FA;
+    --library-a:#C1652F; --library-b:#FBEBDF;
+    --numeracy-a:#D9536A; --numeracy-b:#FBE7EA;
+    --sentence-a:#238C7F; --sentence-b:#E4F5F2;
+    --rhyme-a:#DB9B1F; --rhyme-b:#FCF1DA;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Nunito', sans-serif;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(212,169,74,0.10), transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(123,75,148,0.08), transparent 40%),
+      var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Baloo 2', sans-serif;}
+  .arabic{font-family:'Noto Naskh Arabic', serif; direction:rtl; unicode-bidi:isolate;}
+
+  button{font-family:inherit; cursor:pointer;}
+  a{color:inherit;}
+
+  /* ---------- layout shells ---------- */
+  .screen{display:none; min-height:100vh; width:100%;}
+  .screen.active{display:block;}
+
+  /* ---------- COVER SCREEN ---------- */
+  #cover{
+    padding:48px 24px 64px;
+    display:flex; flex-direction:column; align-items:center;
+    text-align:center;
+  }
+  .cover-badge{
+    font-size:13px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold); font-weight:800; margin-bottom:10px;
+  }
+  .cover-title{
+    font-size:clamp(34px,6vw,58px); font-weight:800; margin:0 0 6px;
+    color:var(--ink);
+  }
+  .cover-title span{color:var(--gold);}
+  .cover-sub{
+    color:var(--ink-soft); font-size:17px; margin-bottom:6px; max-width:560px;
+  }
+  .cover-teacher{
+    color:var(--ink-soft); font-size:14px; margin-bottom:38px; font-style:italic;
+  }
+
+  .shelf{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(210px,1fr));
+    gap:22px;
+    max-width:1000px;
+    width:100%;
+  }
+  .book-tile{
+    position:relative;
+    border-radius:14px 8px 8px 14px;
+    padding:26px 20px 22px;
+    text-align:left;
+    border:none;
+    color:#fff;
+    min-height:150px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    box-shadow:var(--shadow);
+    transform:perspective(600px) rotateY(0deg);
+    transition:transform .25s ease, box-shadow .25s ease;
+    overflow:hidden;
+  }
+  .book-tile::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:10px;
+    background:rgba(0,0,0,0.18);
+  }
+  .book-tile::after{
+    content:"";
+    position:absolute; right:-30px; top:-30px; width:110px; height:110px;
+    background:rgba(255,255,255,0.10); border-radius:50%;
+  }
+  .book-tile:hover{ transform:perspective(600px) rotateY(-6deg) translateY(-4px); box-shadow:0 16px 34px rgba(58,46,34,0.28);}
+  .book-tile .tile-icon{font-size:34px;}
+  .book-tile .tile-name{font-size:22px; font-weight:700; font-family:'Baloo 2';}
+  .book-tile .tile-count{font-size:12.5px; opacity:.9; margin-top:2px;}
+
+  .tile-evs{background:linear-gradient(135deg,var(--evs-a),#2C6B44);}
+  .tile-arabic{background:linear-gradient(135deg,var(--arabic-a),#4F2E63);}
+  .tile-phonics{background:linear-gradient(135deg,var(--phonics-a),#1E5580);}
+  .tile-library{background:linear-gradient(135deg,var(--library-a),#8C4620);}
+  .tile-numeracy{background:linear-gradient(135deg,var(--numeracy-a),#A9354A);}
+  .tile-sentence{background:linear-gradient(135deg,var(--sentence-a),#166058);}
+  .tile-rhyme{background:linear-gradient(135deg,var(--rhyme-a),#A9740F);}
+
+  .cover-footnote{margin-top:40px; font-size:12.5px; color:var(--ink-soft); max-width:520px;}
+
+  /* ---------- TOPIC SCREEN ---------- */
+  .topic-header{
+    padding:22px 20px 14px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    max-width:900px; margin:0 auto;
+  }
+  .back-btn{
+    background:var(--paper-dark); border:2px solid var(--ink);
+    border-radius:999px; padding:8px 16px; font-weight:700; font-size:14px;
+    color:var(--ink);
+  }
+  .back-btn:hover{background:var(--ink); color:var(--paper);}
+  .topic-title-wrap{flex:1; min-width:200px;}
+  .topic-title{margin:0; font-size:26px; font-weight:800;}
+  .topic-sub{margin:2px 0 0; font-size:13.5px; color:var(--ink-soft);}
+
+  .progress-track{
+    max-width:640px; margin:6px auto 0; height:8px; border-radius:99px;
+    background:var(--paper-dark); overflow:hidden;
+  }
+  .progress-fill{height:100%; width:0%; border-radius:99px; transition:width .35s ease;}
+
+  .book-stage{
+    max-width:640px; margin:26px auto 10px; padding:0 18px;
+    perspective:1800px;
+  }
+  .page-card{
+    background:#fffdf7;
+    border-radius:18px;
+    border:1px solid rgba(58,46,34,0.10);
+    box-shadow:var(--shadow);
+    min-height:360px;
+    padding:30px 28px 26px;
+    position:relative;
+    transform-style:preserve-3d;
+    transform-origin:left center;
+    transition:transform .38s ease;
+  }
+  .page-card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:14px;
+    background:linear-gradient(90deg, rgba(58,46,34,0.14), transparent);
+    border-radius:18px 0 0 18px;
+  }
+  .page-card.flip-out{ transform:rotateY(-92deg); }
+
+  .page-eyebrow{
+    display:inline-block; font-size:11.5px; font-weight:800; letter-spacing:1.5px;
+    text-transform:uppercase; padding:4px 12px; border-radius:99px; margin-bottom:14px;
+    color:#fff;
+  }
+  .page-did{font-size:19px; font-weight:700; line-height:1.45; margin:0 0 16px;}
+  .page-practice{
+    background:var(--paper-dark); border-radius:12px; padding:14px 16px;
+    font-size:15px; line-height:1.6; color:var(--ink-soft);
+  }
+  .page-practice strong{color:var(--ink);}
+  .page-practice .arabic{font-size:20px; color:var(--ink); display:block; margin-top:2px;}
+  .vocab-chip-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+  .vocab-chip{
+    background:#fff; border:1.5px solid rgba(58,46,34,0.15); border-radius:99px;
+    padding:5px 12px; font-size:13.5px; font-weight:700;
+  }
+  .word-pair{
+    display:flex; align-items:baseline; justify-content:space-between; gap:14px;
+    padding:8px 0; border-bottom:1px dashed rgba(58,46,34,0.18);
+  }
+  .word-pair:last-child{border-bottom:none;}
+  .word-pair .eng{font-weight:800; font-size:16px;}
+  .word-pair .mean{font-size:13.5px; color:var(--ink-soft);}
+  .word-pair .arabic{font-size:22px;}
+
+  .link-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:#fff; border:2px solid; border-radius:10px;
+    padding:9px 14px; font-weight:800; font-size:14px; margin:10px 6px 0 0;
+    text-decoration:none;
+  }
+  .link-btn:hover{color:#fff;}
+
+  .nav-row{
+    max-width:640px; margin:18px auto 40px; padding:0 18px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .nav-btn{
+    border:none; border-radius:12px; padding:12px 20px; font-weight:800; font-size:15px;
+    color:#fff; box-shadow:0 6px 14px rgba(0,0,0,0.15);
+  }
+  .nav-btn:disabled{opacity:.35; cursor:default; box-shadow:none;}
+  .page-counter{font-weight:800; color:var(--ink-soft); font-size:14px;}
+  .quiz-cta-wrap{max-width:640px; margin:0 auto 50px; padding:0 18px; text-align:center;}
+  .quiz-cta{
+    border:none; border-radius:14px; padding:14px 26px; font-weight:800; font-size:16px;
+    color:#fff; box-shadow:0 8px 18px rgba(0,0,0,0.18);
+  }
+
+  /* ---------- QUIZ ---------- */
+  .quiz-wrap{max-width:640px; margin:0 auto; padding:22px 18px 60px;}
+  .quiz-card{
+    background:#fffdf7; border-radius:18px; box-shadow:var(--shadow);
+    padding:30px 26px; min-height:340px; border:1px solid rgba(58,46,34,0.1);
+  }
+  .quiz-progress{font-size:13px; font-weight:800; color:var(--ink-soft); margin-bottom:10px;}
+  .quiz-q{font-size:21px; font-weight:800; margin:0 0 22px; line-height:1.4;}
+  .quiz-options{display:flex; flex-direction:column; gap:12px;}
+  .quiz-opt{
+    text-align:left; border-radius:12px; padding:14px 16px; font-size:16px; font-weight:700;
+    border:2px solid rgba(58,46,34,0.16); background:#fff; color:var(--ink);
+    transition:transform .12s ease;
+  }
+  .quiz-opt:hover:not(:disabled){transform:translateX(3px);}
+  .quiz-opt.correct{background:#DCF3E3; border-color:#3E8E5C; color:#1F5C36;}
+  .quiz-opt.wrong{background:#FBE1E5; border-color:#C24A5C; color:#7A2B36;}
+  .quiz-feedback{margin-top:16px; font-weight:800; font-size:16px; min-height:24px;}
+  .quiz-next{
+    margin-top:18px; border:none; border-radius:12px; padding:12px 20px;
+    font-weight:800; color:#fff; display:none;
+  }
+  .quiz-result{text-align:center;}
+  .quiz-result .score-big{font-size:56px; font-weight:800; font-family:'Baloo 2';}
+  .quiz-result .score-msg{font-size:18px; font-weight:700; margin:6px 0 22px;}
+  .result-btns{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+  .result-btn{border:2px solid var(--ink); border-radius:12px; padding:11px 20px; font-weight:800; background:#fff;}
+  .result-btn.primary{background:var(--ink); color:#fff;}
+
+  .confetti{position:fixed; top:-40px; font-size:22px; pointer-events:none; animation:fall linear forwards; z-index:999;}
+  @keyframes fall{
+    to{ transform:translateY(110vh) rotate(360deg); opacity:0.9; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .page-card{transition:none;}
+    .book-tile{transition:none;}
+    .confetti{animation:none; display:none;}
+  }
+
+  footer.site-footer{
+    text-align:center; padding:20px; font-size:12px; color:var(--ink-soft);
+  }
 </style>
+</head>
+<body>
 
-<div class="ws">
-<div class="hdr">
-  <h1>Neerav's practice sheet</h1>
-  <p>Tap to learn sight words, pick the right word, find the odd sound!</p>
+<!-- ================= COVER ================= -->
+<div id="cover" class="screen active">
+  <div class="cover-badge">Grade · KG1 C</div>
+  <h1 class="cover-title">Our Little <span>Storybook</span> of Learning</h1>
+  <p class="cover-sub">Flip through the week's lessons, click the songs, and finish each chapter with a fun quiz!</p>
+  <p class="cover-teacher">Teacher — Ms. Fouzia Shaikh</p>
+  <div class="shelf" id="shelf"></div>
+  <p class="cover-footnote">Tap a subject to open its flipbook. Every video link opens in a new tab so you never lose your page.</p>
+  <footer class="site-footer">Made with ♥ for revision time</footer>
 </div>
 
-<div class="score-strip">
-  <div><div class="score-lbl">My score</div><div class="score-val" id="sc">0 / 0</div></div>
-  <div class="stars" id="stars"></div>
+<!-- ================= TOPIC (FLIPBOOK) ================= -->
+<div id="topicScreen" class="screen">
+  <div class="topic-header">
+    <button class="back-btn" onclick="goHome()">← All subjects</button>
+    <div class="topic-title-wrap">
+      <h2 class="topic-title" id="topicTitle"></h2>
+      <p class="topic-sub" id="topicSub"></p>
+    </div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="book-stage">
+    <div class="page-card" id="pageCard"></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)">← Prev</button>
+    <span class="page-counter" id="pageCounter"></span>
+    <button class="nav-btn" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+  <div class="quiz-cta-wrap" id="quizCtaWrap" style="display:none;">
+    <button class="quiz-cta" id="quizCtaBtn" onclick="startQuiz()">🎉 You finished the chapter! Take the Quiz →</button>
+  </div>
 </div>
 
-<div class="sec-title" style="color:#3C3489">Sight words</div>
-<p class="sec-desc">Tap each dotted box to see the letter. Say the word out loud!</p>
-<div class="sec-box">
-  <div class="reset-row"><button class="reset-btn" onclick="resetSW()">Reset letters</button></div>
-  <div class="sw-grid" id="sw-grid"></div>
-</div>
-
-<div class="sec-title" style="color:#085041">Fill in the blank</div>
-<p class="sec-desc">Read the sentence. Tap the correct word to fill the blank!</p>
-<div class="sec-box">
-  <div class="reset-row"><button class="reset-btn" onclick="resetAll()">Try again</button></div>
-  <div id="fib-section"></div>
-</div>
-
-<div class="sec-title" style="color:#712B13">Odd one out — sounds</div>
-<p class="sec-desc">Three words share the same starting sound. Tap the one that does NOT belong!</p>
-<div class="sec-box">
-  <div id="ooo-section"></div>
-</div>
+<!-- ================= QUIZ ================= -->
+<div id="quizScreen" class="screen">
+  <div class="topic-header">
+    <button class="back-btn" onclick="exitQuizToTopic()">← Back to book</button>
+    <div class="topic-title-wrap">
+      <h2 class="topic-title" id="quizTopicTitle"></h2>
+      <p class="topic-sub">Quick quiz — pick the right answer!</p>
+    </div>
+  </div>
+  <div class="quiz-wrap">
+    <div class="quiz-card" id="quizCard"></div>
+  </div>
 </div>
 
 <script>
-const SW=[
-  {word:'me',color:'purple',eg:'"This is me."'},
-  {word:'I',color:'teal',eg:'"I am happy."'},
-  {word:'he',color:'coral',eg:'"He can run."'},
-  {word:'we',color:'amber',eg:'"We are friends."'},
-];
+/* =====================================================================
+   DATA
+   ===================================================================== */
+const TOPICS = {
 
-const FIB=[
-  {
-    context:'Neerav is talking about himself.',
-    before:'',after:'am Neerav.',
-    answer:'I',choices:['I','he','we'],
-    note:'Only "I" works here — "he am" and "we am" are wrong!'
+  evs: {
+    name:"EVS", subtitle:"Environmental Studies", icon:"🌍",
+    accent:"var(--evs-a)", accentSoft:"var(--evs-b)", tileClass:"tile-evs",
+    pages:[
+      { did:"Revision of all community helpers — the dress they wear and the things they use." },
+      { did:"Community helpers: Astronaut and Pilot. Worksheet done based on the story." },
+      { did:"Introduction to Community Helpers: Teacher and Baker. Worksheet of Community Helper: Baker and Teacher.",
+        practiceText:"Bring: Laptop, pencil, pen, board.",
+        vocab:["Mittens","Oven","Cake","Cream","Apron"] },
+      { did:"Introduction to Community Helpers: Police officer, Fireman and Doctor — with their vehicles, tools, and emergency helpline numbers.",
+        practiceText:"UAE Emergency Helpline Numbers:",
+        vocab:["Police 999","Ambulance 998","Civil Defence 997"] },
+      { did:"Introduction of letter d: identification and formation of letter d.",
+        links:[{label:"Jolly Phonics /d/ song", url:"https://youtu.be/QZ30MbVvaQg?si=cTWXYzPqICrDR6_j"}],
+        vocab:["doll","dinosaur","door","duck"] },
+      { did:"My Body Parts — Introduction.",
+        vocab:["Head","Leg","Hands","Eyes","Ears","Nose","Mouth"] },
+      { did:"Introduction of Senses — the 5 Senses." }
+    ],
+    quiz:[
+      { q:"Which community helper flies an aeroplane?", options:["Baker","Pilot","Teacher"], answer:1 },
+      { q:"Who bakes cakes and bread?", options:["Doctor","Police officer","Baker"], answer:2 },
+      { q:"What is the UAE Police emergency number?", options:["999","123","555"], answer:0 },
+      { q:"Letter d is for...", options:["Cat","Duck","Sun"], answer:1 },
+      { q:"How many senses do we have?", options:["3","5","10"], answer:1 },
+      { q:"Which body part do we see with?", options:["Legs","Nose","Eyes"], answer:2 }
+    ]
   },
-  {
-    context:'Neerav\'s friend is a boy named Arjun.',
-    before:'',after:'is my friend.',
-    answer:'He',choices:['Me','He','We'],
-    note:'"He" is used for one boy.'
-  },
-  {
-    context:'Neerav and his sister are going out together.',
-    before:'',after:'are going to the park.',
-    answer:'We',choices:['He','We','I'],
-    note:'"We" means more than one person together.'
-  },
-  {
-    context:'Neerav\'s mum is calling him.',
-    before:'Come with',after:'please!',
-    answer:'me',choices:['me','I','he'],
-    note:'"Come with me" — you say "me" after "with".'
-  },
-  {
-    context:'Neerav is telling what he likes.',
-    before:'',after:'like mangoes.',
-    answer:'I',choices:['I','He','We'],
-    note:'"I like" — talking about yourself alone.'
-  },
-  {
-    context:'Neerav sees a boy carrying a bag.',
-    before:'',after:'has a red bag.',
-    answer:'He',choices:['We','I','He'],
-    note:'"He" is used for one boy you are talking about.'
-  },
-];
 
-const OOO=[
-  {label:'Which does NOT start with the "s" sound?',opts:['sun','sit','ant','sad'],ans:'ant',why:'"ant" starts with "a", not "s"'},
-  {label:'Which does NOT start with the "a" sound?',opts:['apple','pin','ant','arm'],ans:'pin',why:'"pin" starts with "p", not "a"'},
-  {label:'Which does NOT start with the "p" sound?',opts:['pot','pan','ink','pig'],ans:'ink',why:'"ink" starts with "i", not "p"'},
-  {label:'Which does NOT start with the "t" sound?',opts:['sit','tap','top','tin'],ans:'sit',why:'"sit" starts with "s", not "t"'},
-  {label:'Which does NOT start with the "i" sound?',opts:['inn','ill','sat','itch'],ans:'sat',why:'"sat" starts with "s", not "i"'},
-];
+  arabic: {
+    name:"Arabic", subtitle:"عربي — Vocabulary", icon:"🕌",
+    accent:"var(--arabic-a)", accentSoft:"var(--arabic-b)", tileClass:"tile-arabic",
+    pages:[
+      { did:"Arabic numbers of the day.",
+        pairs:[
+          {eng:"Arba", ar:"أربعة", mean:"Number 4"},
+          {eng:"Khamsa", ar:"خمسة", mean:"Number 5"}
+        ]},
+      { did:"Introduction of Arabic word: 'Ayn'.",
+        pairs:[{eng:"Ayn", ar:"عين", mean:"Eyes"}] },
+      { did:"Arabic word for Police.",
+        pairs:[{eng:"Shurta", ar:"شرطة", mean:"Police"}] },
+      { did:"Opposites in Arabic.",
+        pairs:[{eng:"Akhtar", ar:"أكثر", mean:"More"},{eng:"Aqall", ar:"أقل", mean:"Less"}] },
+      { did:"Arabic word: Ummi.",
+        pairs:[{eng:"Ummi", ar:"أمي", mean:"Mother"}] },
+      { did:"Arabic word: Wahid.",
+        pairs:[{eng:"Wahid", ar:"واحد", mean:"One (1)"}] },
+      { did:"Arabic word: Tha·la·tha.",
+        pairs:[{eng:"Thalatha", ar:"ثلاثة", mean:"Number 3"}] },
+      { did:"Arabic word: Hubb.",
+        pairs:[{eng:"Hubb", ar:"حب", mean:"Love"}] },
+      { did:"Family words in Arabic.",
+        pairs:[
+          {eng:"Habibi", ar:"حبيبي", mean:"My love (boy)"},
+          {eng:"Ummi", ar:"أمي", mean:"Mother"},
+          {eng:"Baba / Abba", ar:"بابا", mean:"Father"}
+        ]},
+      { did:"Boy and girl in Arabic.",
+        pairs:[{eng:"Bint", ar:"بنت", mean:"Girl"},{eng:"Walad", ar:"ولد", mean:"Boy"}] },
+      { did:"Arabic word of the day: Madrasa.",
+        pairs:[{eng:"Madrasa", ar:"مدرسة", mean:"School"}] },
+      { did:"Arabic word of the day: Sabah al Noor.",
+        pairs:[{eng:"Sabah al Noor", ar:"صباح النور", mean:"Morning of light (reply to good morning)"}] },
+      { did:"Arabic word of the day: Sabah al Khair.",
+        pairs:[{eng:"Sabah al Khair", ar:"صباح الخير", mean:"Good morning"}] },
+      { did:"Arabic word of the day: Shukran.",
+        pairs:[{eng:"Shukran", ar:"شكرا", mean:"Thank you"}] },
+      { did:"Arabic word of the day: Marhaba.",
+        pairs:[{eng:"Marhaba", ar:"مرحبا", mean:"Hello"}] }
+    ],
+    quiz:[
+      { q:"What does 'Ummi' mean?", options:["Father","Mother","Sister"], answer:1 },
+      { q:"Which Arabic word means 'Hello'?", options:["Marhaba","Shukran","Bint"], answer:0 },
+      { q:"'Wahid' is the Arabic word for which number?", options:["One","Two","Three"], answer:0 },
+      { q:"What does 'Shukran' mean?", options:["Thank you","Sorry","Please"], answer:0 },
+      { q:"'Walad' means...", options:["Girl","Boy","Mother"], answer:1 },
+      { q:"'Habibi' is used to express...", options:["Anger","Love","Hunger"], answer:1 }
+    ]
+  },
 
-let score=0,total=0,answered=[];
+  phonics: {
+    name:"Phonics", subtitle:"Letter Sounds & Words", icon:"🔤",
+    accent:"var(--phonics-a)", accentSoft:"var(--phonics-b)", tileClass:"tile-phonics",
+    pages:[
+      { did:"Letter /w/ — identification and revision.", links:[{label:"Letter /w/ song", url:"https://youtu.be/H0BUZpreow8"}],
+        vocab:["wrap","what","watch","walrus","wallet","wink","water","wave"] },
+      { did:"Letter /j/ — formation and sound.", links:[{label:"Letter /j/ song", url:"https://youtu.be/hHbTRh1TULs?si=gsqXWKPEeu27SVnf"}],
+        vocab:["jump","jack","jacket","jug","jelly fish","juice","jam"] },
+      { did:"Letter /f/ — introduction of letter formation. Practice blending & segmenting CVC words from s a t p i n.", links:[{label:"Letter /f/ song", url:"https://youtu.be/i1f6H2OJzSg?si=xMNmr-9LI8aNC9L_"}],
+        vocab:["fish","fan","fruits","flowers","fox","feather","fun","foot","five","four"] },
+      { did:"Letter /b/ — introduction and workbook practice.",
+        vocab:["bamboo","bear","bee","buzz","bat","ball","before","begin"] },
+      { did:"Letter /u/ — formation of letter u.", links:[{label:"Letter /u/ song", url:"https://youtu.be/RRdzsvPUMh0"}],
+        vocab:["under","up","umbrella"] },
+      { did:"Letter /g/ — Jolly Phonics sound 'g' with hands-on activity.", links:[{label:"Letter /g/ song", url:"https://youtu.be/BKBBmnQBs2Y?si=ZptNmxWWiy52PVzA"}],
+        vocab:["goat","grapes","gun","gift","grass","glass"] },
+      { did:"Letter /o/ — Jolly Phonics sound 'o'.", links:[{label:"Letter /o/ song", url:"https://youtu.be/J-qI9VnFqjM"}],
+        vocab:["orange","oats","octopus","ostrich"] },
+      { did:"Letter /r/ — revision of formation.",
+        vocab:["rat","ribbon","rabbit","roof","rocket","ring"] },
+      { did:"Letter /d/ — writing practice in Phonics workbook.",
+        vocab:["door","dustbin","duck","doll","drum"] },
+      { did:"Letter /e/ — introduction and formation.", links:[{label:"Letter /e/ song", url:"https://youtu.be/htEndAK45zY?si=JcZle9BlWdsJIGUr"}],
+        vocab:["egg","envelope","engine","elbow"] },
+      { did:"Letter /h/ — identification and formation.", links:[{label:"Letter /h/ song", url:"https://youtu.be/JVSCMVLH0aM?si=xonQjV250vM8kla-"}],
+        vocab:["hen","hop","hat","hippo","honey"] },
+      { did:"Letter /m/ — identification and formation.", links:[{label:"Letter /m/ song", url:"https://youtu.be/0O0xmga_mXw?si=gfA2lbFzl_jZzc_7"},{label:"Bonus phonics video", url:"https://www.youtube.com/watch?v=sGRQTm7708c"}],
+        vocab:["map","moon","mouse","mango","mat","monkey"] },
+      { did:"Letter /n/ — vocabulary practice.",
+        vocab:["net","now","nest","neck","nose"] },
+      { did:"Letter /i/ — sound and formation of letter i.",
+        vocab:["igloo","ink","injection","insects","iguana"] },
+      { did:"Letter /p/ — sound and formation, with playdoh activity.",
+        vocab:["pink","pencil","pizza"] },
+      { did:"Letter /t/ — sound and formation of letter t.", links:[{label:"Letter /t/ song", url:"https://youtu.be/X1FmrEiUCaQ?si=CRdaX0aXL8FqEvdz"}],
+        vocab:["toy","tiger","tomatoes","train","town","tall","last","tiny"] },
+      { did:"Letter /a/ — introduction, formation, salt-tray tracing activity.", links:[{label:"Letter /a/ song", url:"https://youtu.be/wDmDWi-JaAc?si=Li2H9PhM37crG7NN"}],
+        vocab:["apple","alligator","aeroplane","ant"] },
+      { did:"Letter /s/ — identification, sound & formation, playdoh & salt-tray activities.", links:[{label:"Letter /s/ song", url:"https://youtu.be/iV3diQgk7Gs?si=L0r_P6mR5-R2Idh1"}],
+        vocab:["sun","star","strawberry","snake"] }
+    ],
+    quiz:[
+      { q:"Which letter does 'umbrella' start with?", options:["u","o","a"], answer:0 },
+      { q:"'Octopus' starts with which letter?", options:["a","o","e"], answer:1 },
+      { q:"Which letter is for 'snake'?", options:["s","z","n"], answer:0 },
+      { q:"'Egg' starts with which letter?", options:["e","i","o"], answer:0 },
+      { q:"'Tiger' starts with which letter?", options:["d","t","b"], answer:1 },
+      { q:"'Monkey' starts with which letter?", options:["n","w","m"], answer:2 },
+      { q:"Which word starts with /j/?", options:["Jump","Wave","Hat"], answer:0 }
+    ]
+  },
 
-function upScore(){
-  document.getElementById('sc').textContent=score+' / '+total;
-  const s=document.getElementById('stars');s.innerHTML='';
-  answered.slice(-10).forEach(v=>{const d=document.createElement('div');d.className='star-dot'+(v?' lit':'');s.appendChild(d);});
-}
+  library: {
+    name:"Library", subtitle:"Story Time", icon:"📚",
+    accent:"var(--library-a)", accentSoft:"var(--library-b)", tileClass:"tile-library",
+    pages:[
+      { did:"Revision on the Robinson Family.", practiceText:"Keep practicing the characters." },
+      { did:"Kittens — Red, Yellow, Blue. Worksheet done based on the story." },
+      { did:"Elements of the story: Goldilocks and the Three Bears." },
+      { did:"Elements of the story: The Gingerbread Man.",
+        vocab:["oven","grandpa","grandma","catch","run","fox","gingerbread man","river","flip","ate"] },
+      { did:"Big, Bad, Bug — an ORT story by Roderick Hunt.",
+        vocab:["bug","bad","big","biff","chip","kipper","magnifier glass"] },
+      { did:"Introduction of the story: The Owl Babies.",
+        vocab:["owl","night","tree","dark","Sarah","Percy","Bill","mother"] },
+      { did:"The Haircut.",
+        vocab:["hair","barber","haircut","yellow colour","scissors"] },
+      { did:"Reading Session (Group 2). Introduction of the Robinson Family.",
+        vocab:["Mum","Dad","Biff","Chip","Kipper","Floppy"] }
+    ],
+    quiz:[
+      { q:"Who visits the three bears' house?", options:["Goldilocks","Kipper","Sarah"], answer:0 },
+      { q:"Who chases the Gingerbread Man?", options:["Grandma","Fox","Owl"], answer:1 },
+      { q:"Sarah, Percy and ___ are the Owl Babies.", options:["Bill","Biff","Chip"], answer:0 },
+      { q:"In 'Big Bad Bug', what helps you see the bug better?", options:["A torch","A magnifier glass","A ladder"], answer:1 },
+      { q:"Who cuts hair in 'The Haircut'?", options:["The barber","The baker","The doctor"], answer:0 },
+      { q:"What is the Robinson family dog's name?", options:["Floppy","Rex","Biff"], answer:0 }
+    ]
+  },
 
-function buildSW(){
-  const g=document.getElementById('sw-grid');g.innerHTML='';
-  SW.forEach(sw=>{
-    const card=document.createElement('div');card.className='sw-card '+sw.color;
-    const big=document.createElement('div');big.className='sw-big';big.textContent=sw.word;
-    const hint=document.createElement('div');hint.className='sw-hint';hint.textContent='Tap each box to spell it out';
-    const letters=document.createElement('div');letters.className='sw-letters';
-    sw.word.split('').forEach(ch=>{
-      const b=document.createElement('div');b.className='lbox';b.textContent=ch;
-      b.onclick=function(){this.classList.toggle('shown');this.classList.toggle(sw.color);};
-      letters.appendChild(b);
-    });
-    const eg=document.createElement('div');eg.className='sw-eg';eg.textContent=sw.eg;
-    card.append(big,hint,letters,eg);g.appendChild(card);
+  numeracy: {
+    name:"Numeracy", subtitle:"Numbers & Counting", icon:"🔢",
+    accent:"var(--numeracy-a)", accentSoft:"var(--numeracy-b)", tileClass:"tile-numeracy",
+    pages:[
+      { did:"Introduction to Number 9 — with tally marks, identification and formation.", numeral:"9", numeralAr:"٩",
+        practiceText:"Practice number sorting with tally marks." },
+      { did:"Number 8 — introduction with tally marks, formation and identification. Hands-on activity: spider legs.", numeral:"8", numeralAr:"٨",
+        vocab:["Octopus has 8 tentacles","Spider has 8 legs"] },
+      { did:"Introduction to Number 7, with revision of More and Less.", numeral:"7", numeralAr:"٧" },
+      { did:"Number 6 — introduction.", numeral:"6", numeralAr:"٦" },
+      { did:"Introduction of concept: Big, Medium and Small." },
+      { did:"Introduction of Number 5 — with tally marks.", numeral:"5", numeralAr:"٥" },
+      { did:"Number 4 — introduction. Tally marks with fingers, and playdoh activity forming number 4.", numeral:"4", numeralAr:"٤" },
+      { did:"Introduction of Number 3 — identification and formation.", numeral:"3", numeralAr:"٣" },
+      { did:"Concept of Tall and Short." },
+      { did:"Introduction of Number 2 — its formation, and tally with numbers 1 and 2.", numeral:"2", numeralAr:"٢" },
+      { did:"Formation of Numbers 0 and 1.", numeral:"0 & 1", numeralAr:"٠ ، ١" },
+      { did:"Introduction of Rote Counting — numbers from 1 to 10.", links:[{label:"Counting 1–10 song", url:"https://youtu.be/Yt8GFgxlITs?si=L_JN6tbF8qt2SlzG"}] }
+    ],
+    quiz:[
+      { q:"How many legs does a spider have?", options:["6","8","10"], answer:1 },
+      { q:"How many tentacles does an octopus have?", options:["8","4","2"], answer:0 },
+      { q:"Which number comes right after 5?", options:["4","6","7"], answer:1 },
+      { q:"An elephant is big, an ant is...", options:["Small","Tall","Loud"], answer:0 },
+      { q:"Which Arabic-Indic numeral means 3?", options:["٣","٥","٩"], answer:0 },
+      { q:"What comes before Number 1?", options:["0","2","10"], answer:0 }
+    ]
+  },
+
+  sentence: {
+    name:"Sentence Making", subtitle:"Speaking in Full Sentences", icon:"💬",
+    accent:"var(--sentence-a)", accentSoft:"var(--sentence-b)", tileClass:"tile-sentence",
+    pages:[
+      { did:"Sentence practice.", sentences:["This is my little pencil.","What is your name?","When is your birthday?"] },
+      { did:"Sentence practice.", sentences:["I give gifts to my loved ones."] },
+      { did:"Sentence practice.", sentences:["I live at home."] },
+      { did:"Sentence practice.", sentences:["I have a pencil."] },
+      { did:"Sentence practice.", sentences:["I like to play football."] },
+      { did:"Sentence practice.", sentences:["Up you go.","I go to the park."] },
+      { did:"Sentence practice.", sentences:["I have drink little water."] },
+      { did:"Sentence practice.", sentences:["I like to eat food."] },
+      { did:"Sentence practice.", sentences:["They are playing."] },
+      { did:"Sentence practice.", sentences:["Come play with me."] },
+      { did:"Sentence practice.", sentences:["Please come here.","The bag is kept here."] },
+      { did:"Sentence practice.", sentences:['The teacher said, "Sit down."'] },
+      { did:"Sentence practice.", sentences:["Give me some sugar."] },
+      { did:"Sentence practice.", sentences:["You are fine!","This is your backpack.","Come, play with me."] },
+      { did:"Sentence practice.", sentences:["This is your backpack."] },
+      { did:"Sentence practice.", sentences:["You are watching the TV."] },
+      { did:"Sentence practice.", sentences:["We all eat ice cream."] },
+      { did:"Sentence practice.", sentences:["I was eating."] },
+      { did:"Sentence practice.", sentences:["I was playing with my friend."] },
+      { did:"Sentence practice.", sentences:["Ria is a girl. She is dancing."] },
+      { did:"Sentence practice.", sentences:["The boy is playing."] },
+      { did:"Sentence practice.", sentences:["She is a good girl."] },
+      { did:"Sentence practice.", sentences:["I want to be a pilot."] },
+      { did:"Sentence practice.", sentences:["I like to play in the park."] },
+      { did:"Sentence practice.", sentences:["He is a boy.","He is playing."] },
+      { did:"Sentence practice.", sentences:["We are walking.","We go to school."] },
+      { did:"Sentence practice.", sentences:["I like to eat fruits."] }
+    ],
+    quiz:[
+      { q:"I like to play ___.", options:["football","fish","mother"], answer:0 },
+      { q:"Ria is a girl. She is ___.", options:["sleeping","dancing","driving"], answer:1 },
+      { q:"I want to be a ___.", options:["table","pilot","cloud"], answer:1 },
+      { q:"We go to ___.", options:["school","moon","kitchen"], answer:0 },
+      { q:"He is a ___.", options:["boy","apple","chair"], answer:0 },
+      { q:"I like to eat ___.", options:["rocks","cars","fruits"], answer:2 }
+    ]
+  },
+
+  rhyme: {
+    name:"Rhymes", subtitle:"Sing & Move", icon:"🎵",
+    accent:"var(--rhyme-a)", accentSoft:"var(--rhyme-b)", tileClass:"tile-rhyme",
+    pages:[
+      { did:"Rhyme: Two Little Dickie Birds (Revision).", links:[{label:"Watch the rhyme", url:"https://youtu.be/fjz6ryD5EEk?si=CaYDUutXgnojGVZH"}] },
+      { did:"Rhyme: Wind the Bobbin Up.", links:[{label:"Watch the rhyme", url:"https://youtu.be/pDuaaEq7rk4?list=RDpDuaaEq7rk4"}] },
+      { did:"Rhyme: Days of the Week. Rhyme: Pat a Cake." },
+      { did:"Rhyme: Pat a Cake, Pat a Cake. Also: Head, Shoulders, Knees and Toes.", links:[{label:"Watch Pat a Cake", url:"https://youtu.be/jdg50KzCR9w?si=s5RdFtxxPFzrbQk5"}],
+        practiceText:"Follow the same tune — replace 'C' with 'T' and 'Carlos' with 'Teacher'." },
+      { did:"Rhyme: If You Are Happy and You Know It, Clap Your Hands. Rhyme: Jack and Jill." },
+      { did:"Rhyme: Five Little Monkeys.", links:[{label:"This week's rhyme", url:"https://youtu.be/8VCpa4blanQ?feature=shared"}] },
+      { did:"Rhyme: Itsy Bitsy Spider." },
+      { did:"Rhyme: I Am a Little Tea Pot — with actions." },
+      { did:"Rhyme: One Elephant Went Out to Play.", links:[{label:"Watch the rhyme", url:"https://youtu.be/wQf6yWEScB8?list=RDwQf6yWEScB8"}] }
+    ],
+    quiz:[
+      { q:"How many little monkeys are in the rhyme?", options:["3","5","10"], answer:1 },
+      { q:"'Itsy Bitsy ___' went up the water spout.", options:["Spider","Kitten","Monkey"], answer:0 },
+      { q:"Which rhyme says 'clap your hands'?", options:["Jack and Jill","If You Are Happy and You Know It","Pat a Cake"], answer:1 },
+      { q:"Jack and ___ went up the hill.", options:["Jill","Jane","Jo"], answer:0 },
+      { q:"Which rhyme teaches head, shoulders, knees and toes?", options:["Wind the Bobbin Up","Head, Shoulders, Knees and Toes","Tea Pot"], answer:1 },
+      { q:"'Wind the Bobbin Up' is a...", options:["Rhyme","Story","Number"], answer:0 }
+    ]
+  }
+};
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+let currentTopicKey = null;
+let currentPageIndex = 0;
+let quizIndex = 0;
+let quizScore = 0;
+
+/* =====================================================================
+   HOME / SHELF
+   ===================================================================== */
+function buildShelf(){
+  const shelf = document.getElementById('shelf');
+  shelf.innerHTML = '';
+  Object.keys(TOPICS).forEach(key=>{
+    const t = TOPICS[key];
+    const btn = document.createElement('button');
+    btn.className = 'book-tile ' + t.tileClass;
+    btn.onclick = ()=> openTopic(key);
+    btn.innerHTML = `
+      <div class="tile-icon">${t.icon}</div>
+      <div>
+        <div class="tile-name">${t.name}</div>
+        <div class="tile-count">${t.pages.length} pages · ${t.quiz.length} quiz questions</div>
+      </div>`;
+    shelf.appendChild(btn);
   });
 }
 
-function resetSW(){buildSW();}
-
-function buildFIB(){
-  const sec=document.getElementById('fib-section');sec.innerHTML='';
-  FIB.forEach((q,i)=>{
-    const blk=document.createElement('div');blk.className='q-block';blk.id='fib-'+i;
-    const num=document.createElement('div');num.className='q-num';num.textContent='Question '+(i+1);
-    const ctx=document.createElement('div');ctx.className='q-context';ctx.textContent=q.context;
-    const sent=document.createElement('div');sent.className='sentence-display';
-    sent.innerHTML=(q.before?q.before+' ':'')+'<span class="blank" id="blank-'+i+'">___</span>'+(q.after?' '+q.after:'');
-    const ch=document.createElement('div');ch.className='choices';
-    q.choices.forEach(opt=>{
-      const btn=document.createElement('button');btn.className='choice-btn';btn.textContent=opt;
-      btn.onclick=()=>checkFIB(i,opt,q,btn,ch);
-      ch.appendChild(btn);
-    });
-    const fb=document.createElement('div');fb.className='q-feedback';fb.id='fb-'+i;
-    blk.append(num,ctx,sent,ch,fb);sec.appendChild(blk);
-  });
+function goHome(){
+  showScreen('cover');
+  currentTopicKey = null;
 }
 
-function checkFIB(i,opt,q,btn,ch){
-  const blk=document.getElementById('fib-'+i);
-  if(blk.dataset.done)return;
-  blk.dataset.done='1';
-  const correct=opt.toLowerCase()===q.answer.toLowerCase();
-  total++;
-  if(correct){
-    score++;answered.push(true);
-    btn.classList.add('correct');
-    document.getElementById('blank-'+i).textContent=opt;
-    const fb=document.getElementById('fb-'+i);fb.className='q-feedback ok';fb.textContent='Well done!';
-  }else{
-    answered.push(false);
-    btn.classList.add('wrong');
-    setTimeout(()=>{
-      ch.querySelectorAll('.choice-btn').forEach(b=>{
-        if(b.textContent.toLowerCase()===q.answer.toLowerCase())b.classList.add('correct');
-        else b.classList.add('locked');
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* =====================================================================
+   TOPIC / FLIPBOOK
+   ===================================================================== */
+function openTopic(key){
+  currentTopicKey = key;
+  currentPageIndex = 0;
+  const t = TOPICS[key];
+  document.getElementById('topicTitle').textContent = t.icon + '  ' + t.name;
+  document.getElementById('topicSub').textContent = t.subtitle;
+  renderPage(false);
+  showScreen('topicScreen');
+}
+
+function renderPage(animate){
+  const t = TOPICS[currentTopicKey];
+  const page = t.pages[currentPageIndex];
+  const card = document.getElementById('pageCard');
+
+  const doRender = ()=>{
+    let html = `<span class="page-eyebrow" style="background:${t.accent}">Page ${currentPageIndex+1} of ${t.pages.length}</span>`;
+    html += `<p class="page-did">${page.did}</p>`;
+
+    if(page.numeral){
+      html += `<div class="page-practice" style="margin-bottom:14px; text-align:center;">
+        <div style="font-size:44px; font-weight:800; font-family:'Baloo 2'; color:${t.accent};">${page.numeral}</div>
+        <div class="arabic" style="font-size:34px; margin-top:4px;">${page.numeralAr}</div>
+      </div>`;
+    }
+
+    if(page.pairs){
+      html += `<div class="page-practice">`;
+      page.pairs.forEach(p=>{
+        html += `<div class="word-pair">
+          <span class="eng">${p.eng}</span>
+          <span class="arabic">${p.ar}</span>
+        </div>
+        <div class="mean" style="text-align:right; margin:-4px 0 6px;">${p.mean}</div>`;
       });
-      document.getElementById('blank-'+i).textContent=q.answer;
-      const fb=document.getElementById('fb-'+i);fb.className='q-feedback no';
-      fb.textContent='The answer is "'+q.answer+'". '+q.note;
-    },700);
+      html += `</div>`;
+    }
+
+    if(page.sentences){
+      html += `<div class="page-practice">`;
+      page.sentences.forEach(s=>{
+        html += `<div style="font-size:17px; font-weight:700; padding:6px 0;">“${s}”</div>`;
+      });
+      html += `</div>`;
+    }
+
+    if(page.practiceText || page.vocab){
+      html += `<div class="page-practice" style="margin-top:14px;">`;
+      if(page.practiceText) html += `<strong>${page.practiceText}</strong>`;
+      if(page.vocab){
+        html += `<div class="vocab-chip-row">`;
+        page.vocab.forEach(v=> html += `<span class="vocab-chip">${v}</span>`);
+        html += `</div>`;
+      }
+      html += `</div>`;
+    }
+
+    if(page.links){
+      page.links.forEach(l=>{
+        html += `<a class="link-btn" style="border-color:${t.accent}; color:${t.accent};"
+          href="${l.url}" target="_blank" rel="noopener noreferrer"
+          onmouseover="this.style.background='${t.accent}'" onmouseout="this.style.background='#fff'">
+          ▶ ${l.label}
+        </a>`;
+      });
+    }
+
+    card.innerHTML = html;
+    card.classList.remove('flip-out');
+    updateNav();
+  };
+
+  if(animate){
+    card.classList.add('flip-out');
+    setTimeout(doRender, 220);
+  } else {
+    doRender();
   }
-  upScore();
 }
 
-function buildOOO(){
-  const sec=document.getElementById('ooo-section');sec.innerHTML='';
-  OOO.forEach((q,i)=>{
-    const row=document.createElement('div');row.className='ooo-row';row.id='ooo-'+i;
-    const lbl=document.createElement('div');lbl.className='ooo-label';lbl.textContent='Q'+(i+1)+': '+q.label;
-    const opts=document.createElement('div');opts.className='ooo-opts';
-    q.opts.forEach(opt=>{
-      const chip=document.createElement('div');chip.className='ooo-chip';chip.textContent=opt;
-      chip.onclick=()=>checkOOO(i,opt,q,chip,opts);
-      opts.appendChild(chip);
-    });
-    const fb=document.createElement('div');fb.className='ooo-fb';fb.id='ooo-fb-'+i;
-    row.append(lbl,opts,fb);sec.appendChild(row);
+function updateNav(){
+  const t = TOPICS[currentTopicKey];
+  document.getElementById('pageCounter').textContent = `${currentPageIndex+1} / ${t.pages.length}`;
+  document.getElementById('prevBtn').disabled = currentPageIndex === 0;
+  document.getElementById('prevBtn').style.background = t.accent;
+  document.getElementById('nextBtn').style.background = t.accent;
+  document.getElementById('nextBtn').disabled = false;
+
+  const pct = ((currentPageIndex+1) / t.pages.length) * 100;
+  const fill = document.getElementById('progressFill');
+  fill.style.width = pct + '%';
+  fill.style.background = t.accent;
+
+  const isLast = currentPageIndex === t.pages.length - 1;
+  const ctaWrap = document.getElementById('quizCtaWrap');
+  const nextBtn = document.getElementById('nextBtn');
+  if(isLast){
+    ctaWrap.style.display = 'block';
+    document.getElementById('quizCtaBtn').style.background = t.accent;
+    nextBtn.style.display = 'none';
+  } else {
+    ctaWrap.style.display = 'none';
+    nextBtn.style.display = 'inline-block';
+  }
+}
+
+function changePage(dir){
+  const t = TOPICS[currentTopicKey];
+  const newIndex = currentPageIndex + dir;
+  if(newIndex < 0 || newIndex > t.pages.length - 1) return;
+  currentPageIndex = newIndex;
+  renderPage(true);
+}
+
+/* =====================================================================
+   QUIZ
+   ===================================================================== */
+function startQuiz(){
+  quizIndex = 0;
+  quizScore = 0;
+  document.getElementById('quizTopicTitle').textContent = TOPICS[currentTopicKey].icon + '  ' + TOPICS[currentTopicKey].name + ' Quiz';
+  renderQuiz();
+  showScreen('quizScreen');
+}
+
+function exitQuizToTopic(){
+  showScreen('topicScreen');
+}
+
+function renderQuiz(){
+  const t = TOPICS[currentTopicKey];
+  const card = document.getElementById('quizCard');
+
+  if(quizIndex >= t.quiz.length){
+    const pct = Math.round((quizScore / t.quiz.length) * 100);
+    let msg = "Great effort! Keep practicing.";
+    let emoji = "🌱";
+    if(pct === 100){ msg = "Perfect score! You're a superstar!"; emoji = "🏆"; }
+    else if(pct >= 70){ msg = "Wonderful job! Almost perfect!"; emoji = "🎉"; }
+    else if(pct >= 40){ msg = "Good try! A little more revision will help."; emoji = "😊"; }
+
+    card.innerHTML = `
+      <div class="quiz-result">
+        <div style="font-size:46px;">${emoji}</div>
+        <div class="score-big">${quizScore} / ${t.quiz.length}</div>
+        <div class="score-msg">${msg}</div>
+        <div class="result-btns">
+          <button class="result-btn primary" onclick="startQuiz()">🔁 Try Again</button>
+          <button class="result-btn" onclick="showScreen('topicScreen')">📖 Back to Book</button>
+          <button class="result-btn" onclick="goHome()">🏠 All Subjects</button>
+        </div>
+      </div>`;
+    launchConfetti(pct >= 70 ? 26 : 10);
+    return;
+  }
+
+  const q = t.quiz[quizIndex];
+  let optsHtml = '';
+  q.options.forEach((opt, i)=>{
+    optsHtml += `<button class="quiz-opt" onclick="answerQuiz(${i})">${opt}</button>`;
   });
+
+  card.innerHTML = `
+    <div class="quiz-progress" style="color:${t.accent}">Question ${quizIndex+1} of ${t.quiz.length}</div>
+    <p class="quiz-q">${q.q}</p>
+    <div class="quiz-options" id="quizOptions">${optsHtml}</div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="quiz-next" id="quizNextBtn" style="background:${t.accent}" onclick="nextQuizQuestion()">Next →</button>
+  `;
 }
 
-function checkOOO(i,opt,q,chip,opts){
-  const row=document.getElementById('ooo-'+i);
-  if(row.dataset.done)return;
-  row.dataset.done='1';total++;
-  if(opt===q.ans){
-    score++;answered.push(true);
-    chip.classList.add('cp');
-    const fb=document.getElementById('ooo-fb-'+i);fb.className='ooo-fb ok';fb.textContent='Yes! '+q.why+'.';
-  }else{
-    answered.push(false);
-    chip.classList.add('wp');
-    opts.querySelectorAll('.ooo-chip').forEach(c=>{
-      if(c.textContent===q.ans)c.classList.add('ans');
-      else if(c!==chip)c.classList.add('locked');
-    });
-    const fb=document.getElementById('ooo-fb-'+i);fb.className='ooo-fb no';
-    fb.textContent='Not quite! "'+q.ans+'" is the odd one. '+q.why+'.';
+function answerQuiz(selectedIndex){
+  const t = TOPICS[currentTopicKey];
+  const q = t.quiz[quizIndex];
+  const buttons = document.querySelectorAll('#quizOptions .quiz-opt');
+  buttons.forEach(b=> b.disabled = true);
+
+  const feedback = document.getElementById('quizFeedback');
+  if(selectedIndex === q.answer){
+    buttons[selectedIndex].classList.add('correct');
+    feedback.textContent = "🎉 Correct! Well done!";
+    feedback.style.color = '#1F5C36';
+    quizScore++;
+  } else {
+    buttons[selectedIndex].classList.add('wrong');
+    buttons[q.answer].classList.add('correct');
+    feedback.textContent = "🤔 Not quite — the right answer is highlighted!";
+    feedback.style.color = '#7A2B36';
   }
-  upScore();
+  document.getElementById('quizNextBtn').style.display = 'inline-block';
 }
 
-function resetAll(){score=0;total=0;answered=[];buildFIB();buildOOO();upScore();}
+function nextQuizQuestion(){
+  quizIndex++;
+  renderQuiz();
+}
 
-buildSW();buildFIB();buildOOO();upScore();
+function launchConfetti(count){
+  const emojis = ['🎉','⭐','🎈','✨','🏅'];
+  for(let i=0;i<count;i++){
+    const span = document.createElement('span');
+    span.className = 'confetti';
+    span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    span.style.left = Math.random()*100 + 'vw';
+    span.style.animationDuration = (2.5 + Math.random()*1.8) + 's';
+    span.style.fontSize = (16 + Math.random()*14) + 'px';
+    document.body.appendChild(span);
+    setTimeout(()=> span.remove(), 4500);
+  }
+}
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+buildShelf();
 </script>
+</body>
+</html>
